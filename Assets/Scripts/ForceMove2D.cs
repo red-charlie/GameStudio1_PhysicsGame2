@@ -17,7 +17,7 @@ public class ForceMove2D : MonoBehaviour
     public Vector2 moveForce;
     
     //the edge collider designated as the floor; can only jump while in contact with this collider
-    EdgeCollider2D floor;
+    Collider2D floor;
     
     //Can only perform a dash attack when the two counters are between 1 and 30, and the dash booleans are true
     int counterLeft;
@@ -34,7 +34,7 @@ public class ForceMove2D : MonoBehaviour
         //Initializing variables 
         //These ones stay constant throughout game
         rigid = GetComponent<Rigidbody2D>();
-        floor = GameObject.Find("floor").GetComponent<EdgeCollider2D>();
+        floor = GameObject.Find("floor").GetComponent<Collider2D>();
         dashForce = new Vector2(5f, 0f);
         jumpForce = new Vector2(0f, 4f);
         moveForce = new Vector2(0.2f, 0f);
