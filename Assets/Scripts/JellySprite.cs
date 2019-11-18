@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JellySprite : MonoBehaviour
 {
+
    private class PropagateCollisions : MonoBehaviour {
         //void OnCollisionEnter2D(Collision2D collision) {
         //    transform.parent.SendMessage("OnCollisionEnter2D", collision);
@@ -40,14 +41,15 @@ public class JellySprite : MonoBehaviour
         float angle = 360.0f / referencePointsCount; //in a circle
 
         for (int i = 0; i < referencePointsCount; i++) {
-            referencePoints[i] = new GameObject();
+            referencePoints[i] = new GameObject("ChildCollider"); //Adding a new game object that works as a collider
             referencePoints[i].tag = gameObject.tag;
-            referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic
+            referencePoints[i].AddComponent<CollisionCheckScript>();//adding in the collisioncheck
+            referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic for said child
             referencePoints[i].transform.parent = transform; 
             Quaternion rotation =
                 Quaternion.AngleAxis(angle * (i - 1), Vector3.back);
             referencePoints[i].transform.localPosition =
-                rotation * offsetFromCenter;  //stupid rotation stuff that keeps it from collapsing
+                rotation * offsetFromCenter;  //Rotates each child into position based off the center 
 
             Rigidbody2D body = referencePoints[i].AddComponent<Rigidbody2D>();
             body.freezeRotation = true; //no rotation

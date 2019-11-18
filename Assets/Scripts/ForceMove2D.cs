@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class ForceMove2D : MonoBehaviour
 {
-    //the rigidbody attached to the GameObject
-    Rigidbody2D rigid;
+ #region Public Variables
 
+ #region Movement Input
+ public KeyCode JumpButton  = KeyCode.Space;
+ public KeyCode RightButton = KeyCode.D;
+ public KeyCode LeftButton  = KeyCode.A;
+ public KeyCode DownButton  = KeyCode.S;
+ public KeyCode UpButton    = KeyCode.W;
+
+
+ #endregion 
+ #region Movement Speeds and Force
     //The force of a dash attack
     public Vector2 dashForce;
 
@@ -15,9 +24,13 @@ public class ForceMove2D : MonoBehaviour
 
     //The force of basic movement
     public Vector2 moveForce;
-    
-    //the edge collider designated as the floor; can only jump while in contact with this collider
-    Collider2D floor;
+    #endregion
+
+#endregion
+
+#region Other Variables
+    //bool canJump = false; //Setting the jump
+    Rigidbody2D rigid; //the 2d rigidbody attached 
     
     //Can only perform a dash attack when the two counters are between 1 and 30, and the dash booleans are true
     int counterLeft;
@@ -27,17 +40,24 @@ public class ForceMove2D : MonoBehaviour
 
     //After dashing, the player has to wait until cooldown == 0 before dashing again
     int cooldown;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //Initializing variables 
         //These ones stay constant throughout game
-        rigid = GetComponent<Rigidbody2D>();
-        floor = GameObject.Find("floor").GetComponent<Collider2D>();
-        dashForce = new Vector2(5f, 0f);
-        jumpForce = new Vector2(0f, 4f);
-        moveForce = new Vector2(0.2f, 0f);
+
+        //Getting the rigidbody of the parent object
+        rigid = GetComponent<Rigidbody2D>(); 
+                
+        
+        
+        
+        //Commenting these out because they change the force as soon as the game starts
+        //dashForce = new Vector2(5f, 0f);
+        //jumpForce = new Vector2(0f, 4f);
+        //moveForce = new Vector2(0.2f, 0f); 
 
         //These ones change with player input
         counterLeft = 0;
@@ -45,7 +65,7 @@ public class ForceMove2D : MonoBehaviour
         dashRight = false;
         dashLeft = false;
     }
-
+ 
     private void FixedUpdate()
     {
         
@@ -54,21 +74,22 @@ public class ForceMove2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //While the a or d buttons are pressed, a force of 0.2 is applied to the object, and the appropriate counter is set to 30. If
+      
+        //While the a or d buttons are pressed, force is applied to the object, and the appropriate counter is set to 30. If
         //the player releases the key, they have until the counter reaches 0 to perform a dash attack.
-        if (Input.GetKey("a"))
+        if (Input.GetKey(LeftButton))
         {
             rigid.AddForce(-moveForce);
             counterLeft = 30;
         }
-        if (Input.GetKey("d"))
+        if (Input.GetKey(RightButton))
         {
             rigid.AddForce(moveForce);
             counterRight = 30;
         }
 
         //Checks if conditions are met, and then the character will dash
-        if (Input.GetKeyDown("a") && dashLeft)
+        if (Input.GetKeyDown(LeftButton) && dashLeft)
         {
             if(counterLeft > 0 && cooldown == 0)
             {
@@ -76,7 +97,7 @@ public class ForceMove2D : MonoBehaviour
                 cooldown = 120;
             }
         }
-        if (Input.GetKeyDown("d") && dashRight)
+        if (Input.GetKeyDown(RightButton) && dashRight)
         {
             if (counterRight > 0 && cooldown == 0)
             {
@@ -85,10 +106,10 @@ public class ForceMove2D : MonoBehaviour
             }
         }
 
-        //If the character is on the floor, they can jump
-        if (Input.GetKeyDown("space") && rigid.IsTouching(floor))
+        //If the character is on the floor (checks for tag), they can jump
+        if (Input.GetKeyDown(JumpButton) && CollisionCheckScript.canJump == true)
         {
-            
+            print("I am trying to jump");
             rigid.AddForce(jumpForce, ForceMode2D.Impulse);
           
         }
@@ -112,7 +133,7 @@ public class ForceMove2D : MonoBehaviour
         }
 
         //cooldown timer runs down if > 0
-        if (cooldown >0)
+        if (cooldown > 0)
         {
             cooldown--;
         }

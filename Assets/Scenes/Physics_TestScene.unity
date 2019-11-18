@@ -132,8 +132,8 @@ GameObject:
   - component: {fileID: 81072629}
   - component: {fileID: 81072628}
   m_Layer: 0
-  m_Name: jump (1)
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,6 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2990098c9cdceb45b22aa1251468c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JumpButton: 32
+  RightButton: 100
+  LeftButton: 97
+  DownButton: 115
+  UpButton: 119
   dashForce: {x: 5, y: 0}
   jumpForce: {x: 0, y: 4}
   moveForce: {x: 0.5, y: 0}
@@ -374,8 +379,8 @@ GameObject:
   - component: {fileID: 281564256}
   - component: {fileID: 281564255}
   m_Layer: 0
-  m_Name: ground
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -671,8 +676,8 @@ GameObject:
   - component: {fileID: 779059038}
   - component: {fileID: 779059037}
   m_Layer: 0
-  m_Name: slow ramp
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -778,8 +783,8 @@ GameObject:
   - component: {fileID: 874981930}
   - component: {fileID: 874981929}
   m_Layer: 0
-  m_Name: shortramp_left
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -885,8 +890,8 @@ GameObject:
   - component: {fileID: 1268455660}
   - component: {fileID: 1268455659}
   m_Layer: 0
-  m_Name: floor
-  m_TagString: Untagged
+  m_Name: group1
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -929,16 +934,16 @@ CompositeCollider2D:
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
-  - m_Collider: {fileID: 281564255}
+  - m_Collider: {fileID: 81072628}
     m_ColliderPaths:
-    - - X: 117289059
-        Y: -35106812
-      - X: 117289059
-        Y: -25984414
-      - X: -216462368
-        Y: -25984443
-      - X: -216462339
-        Y: -35106812
+    - - X: 43574123
+        Y: -50527504
+      - X: 43574123
+        Y: 1113946
+      - X: 27802074
+        Y: 1113917
+      - X: 27802103
+        Y: -50527504
   - m_Collider: {fileID: 779059037}
     m_ColliderPaths:
     - - X: -47029956
@@ -979,16 +984,16 @@ CompositeCollider2D:
         Y: -14086087
       - X: -6897887
         Y: -65727512
-  - m_Collider: {fileID: 81072628}
+  - m_Collider: {fileID: 281564255}
     m_ColliderPaths:
-    - - X: 43574123
-        Y: -50527504
-      - X: 43574123
-        Y: 1113946
-      - X: 27802074
-        Y: 1113917
-      - X: 27802103
-        Y: -50527504
+    - - X: 117289059
+        Y: -35106812
+      - X: 117289059
+        Y: -25984414
+      - X: -216462368
+        Y: -25984443
+      - X: -216462339
+        Y: -35106812
   m_CompositePaths:
     m_Paths:
     - - {x: -4.7029963, y: -8.777062}
@@ -1126,15 +1131,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b1d28222e64b8044aeefc483d8d019f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 00f27437d34141f4493c42f82aa9117e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.27, y: 3.2}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1293927592
@@ -1168,8 +1173,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.27, y: 3.2}
-    newSize: {x: 2.27, y: 3.2}
+    oldSize: {x: 5.05, y: 4.01}
+    newSize: {x: 10.24, y: 10.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -1189,8 +1194,8 @@ GameObject:
   - component: {fileID: 1404755031}
   - component: {fileID: 1404755030}
   m_Layer: 0
-  m_Name: shortramp_right
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1296,6 +1301,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blob_Base
       objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597417, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7054355651107597416, guid: 735b0045ef0408d46868b09597275991,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1366,6 +1376,31 @@ PrefabInstance:
       propertyPath: mappingDetail
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597420, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597420, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597423, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: moveForce.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597423, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: jumpForce.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054355651107597423, guid: 735b0045ef0408d46868b09597275991,
+        type: 3}
+      propertyPath: jumpForce.y
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 735b0045ef0408d46868b09597275991, type: 3}
 --- !u!1 &1799218259
@@ -1380,8 +1415,8 @@ GameObject:
   - component: {fileID: 1799218262}
   - component: {fileID: 1799218261}
   m_Layer: 0
-  m_Name: jump
-  m_TagString: Untagged
+  m_Name: objects
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
