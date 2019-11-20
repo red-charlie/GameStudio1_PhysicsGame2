@@ -35,9 +35,9 @@ public class ForceMove2D : MonoBehaviour
         //These ones stay constant throughout game
         rigid = GetComponent<Rigidbody2D>();
         floor = GameObject.Find("floor").GetComponent<Collider2D>();
-        dashForce = new Vector2(5f, 0f);
+        /*dashForce = new Vector2(5f, 0f);
         jumpForce = new Vector2(0f, 4f);
-        moveForce = new Vector2(0.2f, 0f);
+        moveForce = new Vector2(0.2f, 0f);*/
 
         //These ones change with player input
         counterLeft = 0;

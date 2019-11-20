@@ -41,6 +41,7 @@ public class JellySprite : MonoBehaviour
 
         for (int i = 0; i < referencePointsCount; i++) {
             referencePoints[i] = new GameObject();
+            referencePoints[i].layer = gameObject.layer;
             referencePoints[i].tag = gameObject.tag;
             referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic
             referencePoints[i].transform.parent = transform; 
