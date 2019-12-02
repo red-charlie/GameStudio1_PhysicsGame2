@@ -130,10 +130,10 @@ public class Move2D_Force : MonoBehaviour
         if (Input.GetKeyDown(JumpButton) && CollisionCheckScript.canJump == true)
         {
             print("I am trying to jump");
-            //rigid.AddForce(jumpForce, ForceMode2D.Impulse);
+            rigid.AddForce(jumpForce, ForceMode2D.Impulse);
             //rigid.AddForce(jumpForce);
 
-            rigid.velocity = jumpForce;
+            //rigid.velocity = jumpForce;
         }
 
         //the dash booleans need to be set to false after checking for input, but before the next frame

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JellySprite : MonoBehaviour
 {
+
    private class PropagateCollisions : MonoBehaviour {
         //void OnCollisionEnter2D(Collision2D collision) {
         //    transform.parent.SendMessage("OnCollisionEnter2D", collision);
@@ -17,7 +18,15 @@ public class JellySprite : MonoBehaviour
     public float mappingDetail = 10;
     public float springDampingRatio = 0;
     public float springFrequency = 2;
+    public float RigidMass = 1f;
+    public float RigidGravity = 1f;
+    public float RigidADrag = 0f;
+    public float rigidDrag = 0f;
+    public Sprite CircleSprite;
+    public Material SpriteMaterial;
     public PhysicsMaterial2D surfaceMaterial;
+    
+    public ScriptableObject MetaballScript;
 
     GameObject[] referencePoints;
     int vertexCount;
@@ -40,26 +49,41 @@ public class JellySprite : MonoBehaviour
         float angle = 360.0f / referencePointsCount; //in a circle
 
         for (int i = 0; i < referencePointsCount; i++) {
-            referencePoints[i] = new GameObject();
-            referencePoints[i].layer = gameObject.layer;
+            referencePoints[i] = new GameObject("ChildCollider"); //Adding a new game object that works as a collider
             referencePoints[i].tag = gameObject.tag;
-            referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic
+            referencePoints[i].AddComponent<CollisionCheckScript>();//adding in the collisioncheck
+            referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic for said child
             referencePoints[i].transform.parent = transform; 
+            
             Quaternion rotation =
                 Quaternion.AngleAxis(angle * (i - 1), Vector3.back);
             referencePoints[i].transform.localPosition =
-                rotation * offsetFromCenter;  //stupid rotation stuff that keeps it from collapsing
+                rotation * offsetFromCenter;  //Rotates each child into position based off the center 
 
             Rigidbody2D body = referencePoints[i].AddComponent<Rigidbody2D>();
-            body.freezeRotation = true; //no rotation
+            body.freezeRotation = true; //no rotation in z
+            body.mass = RigidMass;
+            body.gravityScale = RigidGravity;
+            body.angularDrag = RigidADrag;
             body.interpolation = rigidbody.interpolation;
-            body.collisionDetectionMode = rigidbody.collisionDetectionMode;
+            body.collisionDetectionMode = rigidbody.collisionDetectionMode; //the rigidbodies using the variables I set
 
             CircleCollider2D collider =
                 referencePoints[i].AddComponent<CircleCollider2D>();
             collider.radius = referencePointRadius * transform.localScale.x;
             if (surfaceMaterial != null) {
-                collider.sharedMaterial = surfaceMaterial;
+                collider.sharedMaterial = surfaceMaterial; //giving them all circle colliders with surface material
+            
+            SpriteRenderer Csprite =
+            referencePoints[i].AddComponent<SpriteRenderer>(); //adding in a circle for the metaballs effect
+            Csprite.sprite = CircleSprite;
+            Csprite.drawMode = SpriteDrawMode.Sliced;
+            Csprite.material = SpriteMaterial;
+
+            LayerMask LayerSlime =
+            referencePoints[i].layer =8; //changing all of them to the slime layer for the meta balls effect
+            
+
             }
 
             AttachWithSpringJoint(referencePoints[i], gameObject);

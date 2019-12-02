@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: dad55c0c886d21745b51e11976eaf8be, type: 3}
+        m_Texture: {fileID: 2800000, guid: 25838a242215a52419d3d8d4cf65318c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -69,7 +69,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Cutoff: 0.156
+    - _Cutoff: 0.12
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -83,11 +83,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Stroke: 0.437
+    - _Stroke: 0.47
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.93333334, g: 0.34432203, b: 0.062745094, a: 0.6745098}
+    - _Color: {r: 1, g: 0.49658304, b: 0.03773582, a: 1}
     - _EmissionColor: {r: 0.43120328, g: 0.8018868, b: 0.46377662, a: 1}
     - _OutlineColor: {r: 0.008276968, g: 0.2924528, b: 0.12520957, a: 1}
-    - _StrokeColor: {r: 1, g: 0.75, b: 0, a: 0.53333336}
+    - _StrokeColor: {r: 1, g: 0.75, b: 0, a: 1}

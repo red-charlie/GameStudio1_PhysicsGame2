@@ -6,6 +6,7 @@ public class CollisionCheckScript : MonoBehaviour
 {  
     //GameObject[] floor; //List of floor objects, not currently used
     public static bool canJump = false; //public void for the canJump
+    public static bool SlimeMerge = false;//can merge with other slimes
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class CollisionCheckScript : MonoBehaviour
     public void OnCollisionStay2D (Collision2D  other) { //when the collision is touching
         if(other.gameObject.tag == "Floor"){
             canJump = true; //set the jump variable to true
-          //  print("I can jump now");
+            print("I can jump now");
 
         }        
 
@@ -38,4 +39,5 @@ public class CollisionCheckScript : MonoBehaviour
 
     }
    
+       
 }

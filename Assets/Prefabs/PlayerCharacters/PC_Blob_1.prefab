@@ -109,7 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5936029495290538591}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -149,20 +149,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5936029495290538591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4933dedd307c14d4caa389d2bc8f1d0f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bf7c8adb75f6ad42bd1c049710c7575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 10
+  width: 5
+  height: 5
   referencePointsCount: 30
-  referencePointRadius: 0.15
-  mappingDetail: 15
-  springDampingRatio: 0.1
-  springFrequency: 3
+  referencePointRadius: 0.2
+  mappingDetail: 12
+  springDampingRatio: 0.2
+  springFrequency: 2.5
   RigidMass: 0.2
-  RigidGravity: 4
+  RigidGravity: 3
   RigidADrag: 0
-  rigidDrag: 5
+  rigidDrag: 0
   CircleSprite: {fileID: 21300000, guid: 32a13c19c9bc96a4cb53703ef4a7447b, type: 3}
   SpriteMaterial: {fileID: 2100000, guid: 47f4f8e43559ea549a8633109adb1300, type: 2}
   surfaceMaterial: {fileID: 6200000, guid: 386c51b2018b27d408fd97692bbe80ac, type: 2}
