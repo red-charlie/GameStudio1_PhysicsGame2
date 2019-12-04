@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Physics_TestScene.unity
+- path: Assets/Scenes/Level_DraftPass 2.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
