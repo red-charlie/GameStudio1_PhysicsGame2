@@ -34,7 +34,7 @@ public class Gremlin : MonoBehaviour
     //How much should a gremlin reduce slime velocity when it starts clinging? (Between 0 and 1- 1 has no effect, 0 immediately halts slime)
     public float slowdownVelocity;
 
-    public int cooldown;
+    public float cooldown;
     
     
     //GREMLIN RUNTIME PROPERTIES- These properties are checked and updated throughout runtime
@@ -114,6 +114,7 @@ public class Gremlin : MonoBehaviour
         GremlinRigid.drag = 0.0f;
         GremlinRigid.sharedMaterial.bounciness = gremlinBounce;
         isClinging = false;
+        cooldown = 2;
 
 
         
@@ -166,14 +167,17 @@ public class Gremlin : MonoBehaviour
             {
                 grounded = false;
                 flying = true;
-                GremlinRigid.simulated = false;
+                
+                /*
                 collisionTime = Time.fixedTime;
                 collisionTransform.position = gameObject.transform.position;
                 collisionTransform.rotation = gameObject.transform.rotation;
+                */
                 targetPos = Random.insideUnitCircle.normalized*100;
                 targetPos = new Vector2(targetPos.x + collisionTransform.position.x, targetPos.y + collisionTransform.position.y);
-                
-                param = 0.0f;
+                GremlinRigid.AddForce(targetPos, ForceMode2D.Impulse);
+
+                collisionTime = Time.fixedTime;
             }
         }
 
@@ -244,9 +248,12 @@ public class Gremlin : MonoBehaviour
         }
         else if (flying)
         {
-            gameObject.transform.position = Vector2.Lerp(collisionTransform.position, targetPos, param);
-            param += 0.01f;
+            cooldown -= Time.fixedDeltaTime;
+            if(cooldown <= 0) { Object.Destroy(gameObject); }
+
         }
+
+    
         
     }
 
