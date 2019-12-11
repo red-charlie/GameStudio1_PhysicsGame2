@@ -22,7 +22,7 @@ public class CollisionCheckScript : MonoBehaviour
     public void OnCollisionStay2D (Collision2D  other) { //when the collision is touching
         if(other.gameObject.tag == "Floor"){
             canJump = true; //set the jump variable to true
-            print("I can jump now");
+           // print("I can jump now");
 
         }        
 
