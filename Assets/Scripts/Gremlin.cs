@@ -33,11 +33,19 @@ public class Gremlin : MonoBehaviour
 
     //How much should a gremlin reduce slime velocity when it starts clinging? (Between 0 and 1- 1 has no effect, 0 immediately halts slime)
     public float slowdownVelocity;
+
+    public int cooldown;
     
     
     //GREMLIN RUNTIME PROPERTIES- These properties are checked and updated throughout runtime
-    //Has the gremlin been knocked flying?- UNUSED- needed when we send gremlins flying
+    //Is the gremlin on the ground?-
     bool grounded;
+
+    //Has the gremlin been knocked flying?
+    bool flying;
+
+    //How long has the gremlin been on the ground since being knocked flying?
+    float timeOnGround;
     
     //How fast is the gremlin moving?
     float currentspeed;
@@ -57,6 +65,14 @@ public class Gremlin : MonoBehaviour
     //Where did the gremlin make contact with the slime?
     Transform contact;
 
+    //When did the gremlin collide with the slime?
+    float collisionTime;
+
+    //What was the gremlin's transform at time of collision with slime?
+    Transform collisionTransform;
+
+    //when did the gremlin hit the floor?
+    float floorCollision;
 
     //SLIME BOY PROPERTIES
     //The slime boy
@@ -68,6 +84,14 @@ public class Gremlin : MonoBehaviour
     //The slime's rigidbody
     Rigidbody2D SlimeRigid;
 
+    //Where does the gremlin go when sent flying?
+    Vector2 targetPos;
+
+    //A parametric variable for lerp-ing the flying gremlin
+    float param;
+
+    
+
 
 
     // Start is called before the first frame update
@@ -75,12 +99,13 @@ public class Gremlin : MonoBehaviour
     {
         //Initializing variables
         //find slime boy
-        slime = GameObject.FindGameObjectWithTag("avatar");
+        slime = GameObject.FindGameObjectWithTag("Slime");
         SlimeRigid = slime.GetComponent<Rigidbody2D>();
         slimePosition = slime.transform.position;
 
         //By default, gremlin is in neutral state
         grounded = true;
+        flying = false;
         walkState = "";
         GremlinRigid = GetComponent<Rigidbody2D>();
 
@@ -90,63 +115,103 @@ public class Gremlin : MonoBehaviour
         GremlinRigid.sharedMaterial.bounciness = gremlinBounce;
         isClinging = false;
 
+
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(SlimeRigid.velocity);
         //check where the slime and gremlin are
         slimePosition = slime.transform.position;
         gremlinPosition = new Vector2(transform.position.x, transform.position.y);
 
-        //If the slime is to the right, gremlin walks right
-        if ((slimePosition - gremlinPosition).x > 0)
+        if (grounded)
+        {
+
+
+            //check where the slime and gremlin are
+            slimePosition = slime.transform.position;
+            gremlinPosition = new Vector2(transform.position.x, transform.position.y);
+
+            //If the slime is to the right, gremlin walks right
+            if ((slimePosition - gremlinPosition).x > 0)
             {
                 walkState = "right";
 
             }
-        //If the slime is to the left, gremlin walks left
-        if ((slimePosition - gremlinPosition).x < 0)
+            //If the slime is to the left, gremlin walks left
+            if ((slimePosition - gremlinPosition).x < 0)
             {
                 walkState = "left";
 
             }
-     
-       
+        }
+      
+   
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
         //layer 8 is only used for the slime and its child objects
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8 && !isClinging)
         {
-            //separate cling method is written for modularity
-            Cling(other);
+            if (SlimeRigid.velocity.magnitude < 25)
+            {
+                //separate cling method is written for modularity
+                Cling(other);
+            }
+            else
+            {
+                grounded = false;
+                flying = true;
+                GremlinRigid.simulated = false;
+                collisionTime = Time.fixedTime;
+                collisionTransform.position = gameObject.transform.position;
+                collisionTransform.rotation = gameObject.transform.rotation;
+                targetPos = Random.insideUnitCircle.normalized*100;
+                targetPos = new Vector2(targetPos.x + collisionTransform.position.x, targetPos.y + collisionTransform.position.y);
+                
+                param = 0.0f;
+            }
+        }
+
+        else if (other.gameObject.tag == "Floor")
+        {
+            grounded = true;
         }
             
     }
 
-    //Unused atm; could be useful later
     void OnCollisionStay2D(Collision2D other)
     {
-        //layer 8 is only used for the slime and its child objects
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer != 8)
         {
-
+            timeOnGround = Time.fixedTime - floorCollision;
         }
+
+
     }
 
     void OnCollisionExit2D(Collision2D other)
     {
         //layer 8 is only used for the slime and its child objects
-        if (other.gameObject.layer == 8)
+        if (other.gameObject.layer == 8 && isClinging)
         {
             //Undoes the effects of Cling(), to restore slime to its normal state
             isClinging = false;
             gameObject.transform.parent = null;
             GremlinRigid.bodyType = RigidbodyType2D.Dynamic;
-            slime.GetComponent<ForceMove2D>().moveForce *= 1.0f/slowdownForce;
+            slime.GetComponent<Move2D_Force>().moveForce *= 1.0f/slowdownForce;
+            
+            //declares gremlin to be "Ungrounded" aka flying through air
+        }
+
+        else if (other.gameObject.tag == "Floor")
+        {
+            grounded = false;
+            timeOnGround = 0;
         }
     }
 
@@ -154,7 +219,7 @@ public class Gremlin : MonoBehaviour
     void FixedUpdate()
     {
         //The gremlin's behavior when it is just walking
-        if (isClinging == false)
+        if (!isClinging && grounded && Vector2.Distance(slimePosition, gremlinPosition) < 30)
         {
             if ((walkState == "right") && (GremlinRigid.velocity.x < walkspeed.x))
             {
@@ -168,14 +233,21 @@ public class Gremlin : MonoBehaviour
             }
         }
         //The gremlin's behavior when it is clinging to the slime
-        if (isClinging)
+        else if (isClinging)
         {
             //The gremlin's rigidbody has to be moved by script, because it is kinematic while clinging
 
             //Intended effect is that the gremlin stays in contact with the collider its clinging to
             GremlinRigid.MovePosition(contact.position);
             GremlinRigid.MoveRotation(contact.rotation);
+
         }
+        else if (flying)
+        {
+            gameObject.transform.position = Vector2.Lerp(collisionTransform.position, targetPos, param);
+            param += 0.01f;
+        }
+        
     }
 
 
@@ -185,7 +257,8 @@ public class Gremlin : MonoBehaviour
     /// </summary>
     void Cling(Collision2D other)
     {
-        //The Gremlin's body is made kinematic so that it isn't automatically pushed away by the slime
+        Debug.Log(other.gameObject.name);
+        //The Gremlin's body is made kinematic so that it isn't automatically pushed away by the slime 
         GremlinRigid.bodyType = RigidbodyType2D.Kinematic;
 
         //The gremlin is made into a child object of the collider it touches so that its transform is in local coordinates
@@ -206,10 +279,11 @@ public class Gremlin : MonoBehaviour
 
 
         //Slow down slime overall by reducing its default move speed
-        slime.GetComponent<ForceMove2D>().moveForce *= slowdownForce;
+        slime.GetComponent<Move2D_Force>().moveForce *= slowdownForce;
 
         //slow down slime immediately by cutting its velocity
         SlimeRigid.velocity *= slowdownVelocity;
     }
+
 
 }
