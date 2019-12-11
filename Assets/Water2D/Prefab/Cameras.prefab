@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 486282}
   - component: {fileID: 1193887534}
-  - component: {fileID: 1193887535}
-  - component: {fileID: 1193887536}
-  - component: {fileID: 1193887537}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -49,54 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f7541a3a97cd545ba30fa9206c191e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 8
+  followSpeed: 5
   playerGameObject: {fileID: 0}
-  cameraOffset: {x: 0, y: 3, z: -5}
---- !u!114 &1193887535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199430}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f7541a3a97cd545ba30fa9206c191e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followSpeed: 8
-  playerGameObject: {fileID: 0}
-  cameraOffset: {x: 0, y: 3, z: -5}
---- !u!114 &1193887536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199430}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f7541a3a97cd545ba30fa9206c191e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followSpeed: 8
-  playerGameObject: {fileID: 0}
-  cameraOffset: {x: 0, y: 3, z: -5}
---- !u!114 &1193887537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199430}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f7541a3a97cd545ba30fa9206c191e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followSpeed: 8
-  playerGameObject: {fileID: 0}
-  cameraOffset: {x: 0, y: 3, z: -5}
+  cameraOffset: {x: 0, y: 6, z: -5}
 --- !u!1 &6200582023666877038
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iterations: 2
-  blurSpread: 0.6
+  blurSpread: 0.2
   blurShader: {fileID: 4800000, guid: 57e6deea7c2924e22a5138e2b70bb4dc, type: 3}
   cutOutMaterial: {fileID: 2100000, guid: 47f4f8e43559ea549a8633109adb1300, type: 2}
   bgCamera: {fileID: 6200582024934476846}

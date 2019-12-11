@@ -10,7 +10,7 @@ public class JellySprite : MonoBehaviour
         //    transform.parent.SendMessage("OnCollisionEnter2D", collision);
         //}
     }
-
+#region variables
     public int width = 5;
     public int height = 5;
     public int referencePointsCount = 12;
@@ -24,7 +24,12 @@ public class JellySprite : MonoBehaviour
     public float rigidDrag = 0f;
     public Sprite CircleSprite;
     public Material SpriteMaterial;
+    public GameObject FaceSprite;
+    public float FaceSpeed = 5f;
+    public Vector2 FaceOffset;
     public PhysicsMaterial2D surfaceMaterial;
+    Vector3 FacePosition;
+    
     
     public ScriptableObject MetaballScript;
 
@@ -35,17 +40,18 @@ public class JellySprite : MonoBehaviour
     Vector2[] uv;
     Vector3[,] offsets;
     float[,] weights;
-
+#endregion
     void Start () {
         CreateReferencePoints();
         CreateMesh(); //create mesh for blobby man
         MapVerticesToReferencePoints(); //reference points for mesh
+        
     }
 
     void CreateReferencePoints() {
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>(); //get the rigidbody
         referencePoints = new GameObject[referencePointsCount]; //make the reference points
-        Vector3 offsetFromCenter = ((0.5f - referencePointRadius) * Vector3.up); //moving them
+        Vector3 offsetFromCenter = ((0.5f - referencePointRadius) * Vector3.up); 
         float angle = 360.0f / referencePointsCount; //in a circle
 
         for (int i = 0; i < referencePointsCount; i++) {
@@ -182,6 +188,8 @@ public class JellySprite : MonoBehaviour
 
     void Update() {
         UpdateVertexPositions();
+        SlimeFaceUpdate();
+    
     }
 
     void UpdateVertexPositions() {
@@ -201,6 +209,28 @@ public class JellySprite : MonoBehaviour
         mesh.RecalculateBounds();
     }
 
+    void SlimeFaceUpdate ()
+    {
+        //FacePosition = ((0.5f - referencePointRadius) * Vector3.up);
+    // FacePosition = ((.5f- referencePointRadius) * Vector3.up); 
+    
+    FacePosition = transform.position;
+        Vector2 newPosition = new Vector2 
+                (FacePosition.x + FaceOffset.x,
+                 FacePosition.y + FaceOffset.y
+                 );  
+    
+      FaceSprite.transform.position = Vector2.Lerp
+                (FaceSprite.transform.position, 
+                newPosition, 
+                FaceSpeed * Time.deltaTime);
+
+     //FaceSprite.transform.position = new Vector2 (newPosition.x, newPosition.y);
+
+     
+
+
+    }
     Vector3 LocalPosition(GameObject obj) {
         return transform.InverseTransformPoint(obj.transform.position);
     }
