@@ -30,6 +30,9 @@ public class Move2D_Force : MonoBehaviour
 
     //The force of basic movement
     public Vector2 moveForce;
+
+    //The maximum horizontal velocity of the slime
+    public float maxSpeed;
     #endregion
 
 #endregion
@@ -93,18 +96,19 @@ public class Move2D_Force : MonoBehaviour
         //While the a or d buttons are pressed, force is applied to the object, and the appropriate counter is set to 30. If
         //the player releases the key, they have until the counter reaches 0 to perform a dash attack.
        #region Movement linear
-        if (Input.GetKey(LeftButton))
+        if (Input.GetKey(LeftButton) && rigid.velocity.x > -maxSpeed)
         {
             rigid.AddForce(-moveForce);
            // rigid.velocity = -moveForce;
             counterLeft = 30;
         }
-        if (Input.GetKey(RightButton))
+        if (Input.GetKey(RightButton) && rigid.velocity.x < maxSpeed)
         {
             rigid.AddForce(moveForce);
             //rigid.velocity = moveForce;
             counterRight = 30;
         }
+        Debug.Log(rigid.velocity);
 
         //Checks if conditions are met, and then the character will dash
         if (Input.GetKeyDown(LeftButton) && dashLeft)
