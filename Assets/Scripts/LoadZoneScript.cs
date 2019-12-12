@@ -28,12 +28,14 @@ public class LoadZoneScript : MonoBehaviour
     }
 
     private void OnTriggerExit2D (Collider2D collision){
-       // CullZone();
-       if (collision.gameObject.name == "PC_Blob_1" 
-            && collision.gameObject.tag == "Slime" 
-            && ChildZone.activeSelf)
-        print("removing this zone! " + ChildZone);
-        ChildZone.SetActive(false);
+        // CullZone();
+        if (collision.gameObject.name == "PC_Blob_1"
+             && collision.gameObject.tag == "Slime"
+             && ChildZone.activeSelf)
+        {
+            print("removing this zone! " + ChildZone);
+            ChildZone.SetActive(false);
+        }
     }
     
 
