@@ -35,6 +35,8 @@ public class Gremlin : MonoBehaviour
     public float slowdownVelocity;
 
     public float cooldown;
+
+    public Sprite[] sprites;
     
     
     //GREMLIN RUNTIME PROPERTIES- These properties are checked and updated throughout runtime
@@ -167,6 +169,8 @@ public class Gremlin : MonoBehaviour
             {
                 grounded = false;
                 flying = true;
+                GetComponent<SpriteRenderer>().sprite = sprites[2];
+                sprites[1] = sprites[2];
                 
                 /*
                 collisionTime = Time.fixedTime;
@@ -245,6 +249,7 @@ public class Gremlin : MonoBehaviour
             GremlinRigid.MovePosition(contact.position);
             GremlinRigid.MoveRotation(contact.rotation);
 
+
         }
         else if (flying)
         {
@@ -267,6 +272,7 @@ public class Gremlin : MonoBehaviour
         Debug.Log(other.gameObject.name);
         //The Gremlin's body is made kinematic so that it isn't automatically pushed away by the slime 
         GremlinRigid.bodyType = RigidbodyType2D.Kinematic;
+        //GremlinRigid.simulated = false;
 
         //The gremlin is made into a child object of the collider it touches so that its transform is in local coordinates
         gameObject.transform.parent = other.gameObject.transform;
@@ -276,6 +282,8 @@ public class Gremlin : MonoBehaviour
         
         //set this variable to true to make sure the gremlin doesn't walk
         isClinging = true;
+
+        GetComponent<SpriteRenderer>().sprite = sprites[1];
 
         //Old code from prototypes involving Physics Materials
         /*
