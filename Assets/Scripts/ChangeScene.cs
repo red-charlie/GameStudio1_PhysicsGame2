@@ -24,6 +24,13 @@ public class ChangeScene : MonoBehaviour
         
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Slime" ){
+        GameWin();
+        print("Changing to the game win scene.");
+        }
+    }
     public void NextSceneSwitch () {
         SceneManager.LoadScene(NextScene);
     }
