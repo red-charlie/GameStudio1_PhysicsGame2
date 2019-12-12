@@ -108,7 +108,7 @@ public class Move2D_Force : MonoBehaviour
             //rigid.velocity = moveForce;
             counterRight = 30;
         }
-        Debug.Log(rigid.velocity);
+        //Debug.Log(rigid.velocity);
 
         //Checks if conditions are met, and then the character will dash
         if (Input.GetKeyDown(LeftButton) && dashLeft)
