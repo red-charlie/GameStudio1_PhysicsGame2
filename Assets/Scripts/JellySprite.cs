@@ -59,6 +59,7 @@ public class JellySprite : MonoBehaviour
             referencePoints[i].tag = gameObject.tag;
             referencePoints[i].AddComponent<CollisionCheckScript>();//adding in the collisioncheck
             referencePoints[i].AddComponent<PropagateCollisions>(); //collision logic for said child
+            referencePoints[i].AddComponent<SplatterSound>();
             referencePoints[i].transform.parent = transform; 
             
             Quaternion rotation =
