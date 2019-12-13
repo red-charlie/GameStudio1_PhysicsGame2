@@ -6,82 +6,130 @@ public class SplatterSound : MonoBehaviour
 {
     AudioSource audio;
     private static bool[] contactQueue;
+    //private static int slimeTouching;
     private static int queueIndex;
     readonly bool[] allFalse = new bool[30];
+    private Collider2D collider;
+    private static int frameCounter;
 
-    float timer;
+    private static float duration;
+    private static float timer;
     // Start is called before the first frame update
     void Start()
     {
+        contactQueue = new bool[30];
         for (int i = 0; i < 30; i++)
         {
             allFalse[i] = false;
+            contactQueue[i] = false;
         }
-        contactQueue = new bool[30];
-        contactQueue = allFalse;
+       
         audio = GameObject.FindGameObjectWithTag("Slime").GetComponent<AudioSource>();
+        audio.Play();
+        audio.Pause();
         queueIndex = 0;
-        timer = 1;
+        duration = 0.2f;
+        frameCounter = 0;
+        collider = GetComponent<CircleCollider2D>();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
+
+     
     }
 
     private void FixedUpdate()
     {
-        timer -= Time.fixedDeltaTime;
-        if (timer <= 0)
+
+        //CheckContact();
+        duration -= Time.fixedDeltaTime/30.0f;
+        timer += Time.fixedDeltaTime / 30.0f;
+        CheckContact();
+
+
+        if (duration <= 0)
         {
             audio.Pause();
         }
-        Debug.Log(contactQueue.ToString());
+
+
+        else { timer = 0; }
+
     }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       
-    }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor")
+
+        if (collision.gameObject.layer == 0)
         {
-            if (contactQueue == allFalse)
+            //CheckContact();
+
+
+            //Debug.Log(timer);
+            if (!Physics2D.IsTouchingLayers(collider, 0) && timer > 0.2f && !audio.isPlaying)
             {
                 Splat();
             }
-            enqueue();
+            //enqueue();
+            timer = 0;
         }
     }
+   /* 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.layer == 0)
         {
             dequeue();
         }
-    }
-
+    }*/
+    
+    
     void enqueue()
     {
+        Debug.Log(queueIndex);
         contactQueue[queueIndex] = true;
         queueIndex = (queueIndex + 1) % 30;
     }
 
     void dequeue()
     {
-        queueIndex = (queueIndex - 1) % 30;
+        Debug.Log(queueIndex);
+        //queueIndex = (queueIndex % - 1) % 30;
         contactQueue[queueIndex] = false;
-        
-    }
+        queueIndex = (queueIndex + 1) % 30;
 
+    }
+    
     void Splat()
     {
-        audio.UnPause();
-        timer = 1;
-        
+        if (!audio.isPlaying)
+        {
+            audio.UnPause();
+            duration = 0.5f;
+            timer = 0;
+        }
 
         
     }
+    void CheckContact()
+    {
+        if (!Physics2D.IsTouchingLayers(collider, 0))
+        {
+            dequeue();
+        }
+
+        else
+        {
+            enqueue();
+
+        }
+    }
+
+    //!Physics2D.IsTouchingLayers(collider, 0)
 }
