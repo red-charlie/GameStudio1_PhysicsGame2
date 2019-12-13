@@ -131,7 +131,7 @@ public class Move2D_Force : MonoBehaviour
 
     #region jumping and dashing
         //If the character is on the floor (checks for tag), they can jump
-        if (Input.GetKeyDown(JumpButton) && CollisionCheckScript.canJump == true)
+        if (FloorCollision.canJump == true && Input.GetKeyDown(JumpButton))
         {
             print("I am trying to jump");
             rigid.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -139,6 +139,12 @@ public class Move2D_Force : MonoBehaviour
 
             //rigid.velocity = jumpForce;
         }
+        // else //if (CollisionCheckScript.canJump != true)
+        // {
+        //     rigid.AddForce(new Vector2 (0,0), ForceMode2D.Impulse);
+
+        // }
+        
 
         //the dash booleans need to be set to false after checking for input, but before the next frame
         dashLeft = false;
