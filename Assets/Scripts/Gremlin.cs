@@ -37,6 +37,8 @@ public class Gremlin : MonoBehaviour
     public float cooldown;
 
     public Sprite[] sprites;
+
+    AudioSource audio;
     
     
     //GREMLIN RUNTIME PROPERTIES- These properties are checked and updated throughout runtime
@@ -104,6 +106,9 @@ public class Gremlin : MonoBehaviour
         slime = GameObject.FindGameObjectWithTag("Slime");
         SlimeRigid = slime.GetComponent<Rigidbody2D>();
         slimePosition = slime.transform.position;
+        audio = GetComponent<AudioSource>();
+        //audio.Play();
+        //audio.Pause();
 
         //By default, gremlin is in neutral state
         grounded = true;
@@ -157,29 +162,31 @@ public class Gremlin : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         //layer 8 is only used for the slime and its child objects
-        if (other.gameObject.layer == 8 && !isClinging)
+        if (other.gameObject.layer == 8)
         {
-            if (SlimeRigid.velocity.magnitude < 25)
+            if (!isClinging && SlimeRigid.velocity.magnitude < 25)
             {
                 //separate cling method is written for modularity
                 Cling(other);
             }
-            else
+            else if (!isClinging && SlimeRigid.velocity.magnitude >= 25)
             {
                 grounded = false;
                 flying = true;
                 GetComponent<SpriteRenderer>().sprite = sprites[2];
                 sprites[1] = sprites[2];
                 sprites[0] = sprites[2];
-                
+                targetPos = Random.insideUnitCircle.normalized * 100;
+                targetPos = new Vector2(targetPos.x + collisionTransform.position.x, targetPos.y + collisionTransform.position.y);
+                GremlinRigid.AddForce(targetPos, ForceMode2D.Impulse);
+                audio.PlayScheduled(AudioSettings.dspTime+1);
+
                 /*
                 collisionTime = Time.fixedTime;
                 collisionTransform.position = gameObject.transform.position;
                 collisionTransform.rotation = gameObject.transform.rotation;
                 */
-                targetPos = Random.insideUnitCircle.normalized*100;
-                targetPos = new Vector2(targetPos.x + collisionTransform.position.x, targetPos.y + collisionTransform.position.y);
-                GremlinRigid.AddForce(targetPos, ForceMode2D.Impulse);
+
 
                 collisionTime = Time.fixedTime;
             }
@@ -228,7 +235,7 @@ public class Gremlin : MonoBehaviour
     void FixedUpdate()
     {
         //The gremlin's behavior when it is just walking
-        if (!isClinging && grounded && Vector2.Distance(slimePosition, gremlinPosition) < 30)
+        if (!isClinging && !flying && Vector2.Distance(slimePosition, gremlinPosition) < 30)
         {
             if ((walkState == "right") && (GremlinRigid.velocity.x < walkspeed.x))
             {

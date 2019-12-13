@@ -21,7 +21,7 @@ public class CollisionCheckScript : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        SendMessageUpwards("Splat");
+        //SendMessageUpwards("Splat");
         
         
     }

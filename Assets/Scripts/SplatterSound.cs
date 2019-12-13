@@ -14,6 +14,8 @@ public class SplatterSound : MonoBehaviour
 
     private static float duration;
     private static float timer;
+    private static double delay;
+    ParticleSystem particles;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +27,16 @@ public class SplatterSound : MonoBehaviour
         }
        
         audio = GameObject.FindGameObjectWithTag("Slime").GetComponent<AudioSource>();
+        particles = GameObject.FindGameObjectWithTag("Slime").GetComponent<ParticleSystem>();
+        var emitParams = new ParticleSystem.EmitParams();
+        emitParams.velocity = Random.insideUnitCircle*5;
         audio.Play();
         audio.Pause();
         queueIndex = 0;
         duration = 0.2f;
         frameCounter = 0;
         collider = GetComponent<CircleCollider2D>();
+        delay = 0.05;
 
 
     }
@@ -49,16 +55,17 @@ public class SplatterSound : MonoBehaviour
         //CheckContact();
         duration -= Time.fixedDeltaTime/30.0f;
         timer += Time.fixedDeltaTime / 30.0f;
-        CheckContact();
+        //CheckContact();
 
-
+        
         if (duration <= 0)
         {
             audio.Pause();
         }
-
-
         else { timer = 0; }
+        if (duration > 0) { timer = 0; }
+
+
 
     }
 
@@ -89,7 +96,7 @@ public class SplatterSound : MonoBehaviour
         }
     }*/
     
-    
+    /*
     void enqueue()
     {
         Debug.Log(queueIndex);
@@ -104,19 +111,28 @@ public class SplatterSound : MonoBehaviour
         contactQueue[queueIndex] = false;
         queueIndex = (queueIndex + 1) % 30;
 
-    }
+    }*/
     
     void Splat()
     {
         if (!audio.isPlaying)
         {
             audio.UnPause();
-            duration = 0.5f;
+           duration = 0.287f;
             timer = 0;
+
+            /*
+            var emitParams = new ParticleSystem.EmitParams();
+            emitParams.velocity = Random.insideUnitCircle * 10;
+            particles.Emit(emitParams, 3);
+            emitParams.ResetVelocity();
+            */
         }
 
         
     }
+
+    /*
     void CheckContact()
     {
         if (!Physics2D.IsTouchingLayers(collider, 0))
@@ -129,7 +145,7 @@ public class SplatterSound : MonoBehaviour
             enqueue();
 
         }
-    }
+    }*/
 
     //!Physics2D.IsTouchingLayers(collider, 0)
 }
