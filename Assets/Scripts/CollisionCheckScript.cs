@@ -22,26 +22,33 @@ public class CollisionCheckScript : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         SendMessageUpwards("Splat");
+        
+        
     }
-    public void OnCollisionStay2D (Collision2D  other) { //when the collision is touching
-        if(other.gameObject.tag == "Floor"){
-            canJump = true; //set the jump variable to true
-           // print("I can jump now");
+    // public void OnCollisionStay2D (Collision2D  other) { //when the collision is touching
+    //     if(other.gameObject.tag == "Floor"){
+    //         canJump = true; //set the jump variable to true
+    //        print("I can jump now");
 
-        }        
+    //     }        
 
-        else
-        {
-            canJump = false; //otherwise I can't jump
-        }
+    //     else //if ( other.gameObject.tag != "Floor")
+    //     {
+    //         canJump = false; //otherwise I can't jump
+    //         print ("Woops Can't jump");
+    //     }
             
 
-    }
+    // }
 
-    public void OnCollisionExit2D (Collision2D other){
-        canJump = false; //when not touching anything can't jump
-
-    }
+    // public void OnCollisionExit2D (Collision2D other){
+    //    if (canJump == true){
+    //         canJump = false; //when not touching anything can't jump
+    //    }
+    //    else if (canJump == false){
+    //        //
+    //    }
+    // }
    
        
 }

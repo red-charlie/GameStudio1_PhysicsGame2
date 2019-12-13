@@ -116,7 +116,6 @@ public class Gremlin : MonoBehaviour
         GremlinRigid.drag = 0.0f;
         GremlinRigid.sharedMaterial.bounciness = gremlinBounce;
         isClinging = false;
-        cooldown = 2;
 
 
         
@@ -125,7 +124,7 @@ public class Gremlin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(SlimeRigid.velocity);
+        //Debug.Log(SlimeRigid.velocity);
         //check where the slime and gremlin are
         slimePosition = slime.transform.position;
         gremlinPosition = new Vector2(transform.position.x, transform.position.y);
@@ -171,6 +170,7 @@ public class Gremlin : MonoBehaviour
                 flying = true;
                 GetComponent<SpriteRenderer>().sprite = sprites[2];
                 sprites[1] = sprites[2];
+                sprites[0] = sprites[2];
                 
                 /*
                 collisionTime = Time.fixedTime;
@@ -212,6 +212,7 @@ public class Gremlin : MonoBehaviour
             gameObject.transform.parent = null;
             GremlinRigid.bodyType = RigidbodyType2D.Dynamic;
             slime.GetComponent<Move2D_Force>().moveForce *= 1.0f/slowdownForce;
+            GetComponent<SpriteRenderer>().sprite = sprites[0];
             
             //declares gremlin to be "Ungrounded" aka flying through air
         }
@@ -269,7 +270,7 @@ public class Gremlin : MonoBehaviour
     /// </summary>
     void Cling(Collision2D other)
     {
-        Debug.Log(other.gameObject.name);
+        //Debug.Log(other.gameObject.name);
         //The Gremlin's body is made kinematic so that it isn't automatically pushed away by the slime 
         GremlinRigid.bodyType = RigidbodyType2D.Kinematic;
         //GremlinRigid.simulated = false;
